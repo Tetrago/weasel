@@ -1,9 +1,9 @@
 module queue_tb;
-  reg r_clk;
-  reg r_rst;
-  reg r_push;
-  reg [3:0] r_data;
-  reg r_pop[3:0];
+  logic r_clk;
+  logic r_rst;
+  logic r_push;
+  logic [3:0] r_data;
+  logic r_pop[3:0];
 
   wire [2:0] w_size;
   wire [3:0] w_data[3:0];

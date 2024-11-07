@@ -1,6 +1,6 @@
 module queue #(
     parameter int Size = 16,
-    parameter type T = reg,
+    parameter type T = logic,
     localparam int Width = $clog2(Size)
 ) (
     input wire clk_ni,
@@ -11,7 +11,7 @@ module queue #(
 
     input wire pop_i[Size-1:0],
 
-    output reg [Width:0] size_o,
+    output logic [Width:0] size_o,
     output T data_o[Size-1:0]
 );
   always_ff @(negedge clk_ni) begin

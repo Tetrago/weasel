@@ -1,4 +1,4 @@
-MODULES ?= queue
+MODULES ?= queue alu
 OUT_DIR ?= build
 
 SOURCE_FILES=$(patsubst %,%.sv,$(MODULES))
@@ -11,6 +11,8 @@ all: test
 clean:
 	rm -rf build
 
-test: $(SOURCE_FILES) $(TESTBENCH_FILES)
-	verilator --binary -j 0 --assert -Wall --Mdir $(OUT_DIR) -o $@ $^
+%_tb: $(SOURCE_FILES)
+	verilator --binary -j 0 --assert -Wall --Mdir $(OUT_DIR) -o $@ --top-module $@ $^ $@.sv
 	./$(OUT_DIR)/$@
+
+test: $(patsubst %_tb.sv,%_tb,$(TESTBENCH_FILES))
