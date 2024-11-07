@@ -1,13 +1,15 @@
 module queue #(
     parameter int Size = 16,
     parameter type T = logic,
-    localparam int Width = $clog2(Size)
+    parameter int Producers = 1,
+    localparam int Width = $clog2(Size),
+    localparam int Select = $clog2(Producers)
 ) (
     input wire clk_ni,
     input wire rst_i,
 
-    input wire push_i,
-    input T data_i,
+    input wire push_i[Producers-1:0],
+    input T data_i[Producers-1:0],
 
     input wire pop_i[Size-1:0],
 
@@ -30,9 +32,11 @@ module queue #(
         end
       end
 
-      if (push_i && size_o < Size[Width:0]) begin
-        data_o[size_o[Width-1:0]] <= data_i;
-        ++size;
+      for (bit [Select:0] i = 0; i < Producers[Select:0]; ++i) begin
+        if (push_i[i[Select-1:0]] && size < Size[Width:0]) begin
+          data_o[size[Width-1:0]] <= data_i[i[Select-1:0]];
+          ++size;
+        end
       end
 
       size_o <= size;

@@ -39,7 +39,7 @@ module alu_tb;
 
       #5
       assert (w_result == records[i].result)
-      else $error("Invalid result for item %d: %d", i, w_result);
+      else $error("invalid result for item %d: %d", i, w_result);
     end
 
     $display("end of test");
